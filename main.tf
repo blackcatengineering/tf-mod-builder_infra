@@ -32,7 +32,7 @@ resource "openstack_networking_network_v2" "network" {
 resource "openstack_networking_subnet_v2" "subnet1" {
   name            = "${local.domain_safename}-builder-subnet-1"
   network_id      = openstack_networking_network_v2.network.id
-  cidr            = ${var.builder_subnet_cidr}
+  cidr            = var.builder_subnet_cidr
   ip_version      = 4
   dns_nameservers = var.dns_servers
 }
@@ -40,7 +40,7 @@ resource "openstack_networking_subnet_v2" "subnet1" {
 resource "openstack_networking_subnet_v2" "subnet2" {
   name            = "${local.domain_safename}-application-subnet-1"
   network_id      = openstack_networking_network_v2.network.id
-  cidr            = ${var.application_subnet_cidr}
+  cidr            = var.application_subnet_cidr
   ip_version      = 4
   dns_nameservers = var.dns_servers
 
