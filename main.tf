@@ -62,7 +62,7 @@ resource "openstack_containerinfra_cluster_v1" "cluster_1" {
   cluster_template_id = data.openstack_containerinfra_clustertemplate_v1.cluster_template.id
   master_count        = 1
   node_count          = 1
-  keypair             = openstack_compute_keypair_v2.keypair.id
+  keypair             = openstack_compute_keypair_v2.keypair.name
   # create_timeout      = 1440
   # added as when creating with terraform gets ignored from template
   # floating_ip_enabled = true
