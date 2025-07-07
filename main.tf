@@ -66,8 +66,8 @@ resource "openstack_containerinfra_cluster_v1" "cluster_1" {
   # create_timeout      = 1440
   # added as when creating with terraform gets ignored from template
   # floating_ip_enabled = true
-  # fixed_network = openstack_networking_network_v2.network.name
-  # fixed_subnet = openstack_networking_subnet_v2.subnet1.name
+  fixed_network = openstack_networking_network_v2.network.name
+  fixed_subnet = openstack_networking_subnet_v2.subnet1.name
 
 
 }
