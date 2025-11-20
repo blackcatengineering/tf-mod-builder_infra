@@ -57,6 +57,11 @@ resource "openstack_networking_router_interface_v2" "router_interface_1" {
   subnet_id = openstack_networking_subnet_v2.subnet1.id
 }
 
+resource "openstack_networking_router_interface_v2" "router_interface_1" {
+  router_id = openstack_networking_router_v2.router_1.id
+  subnet_id = openstack_networking_subnet_v2.subnet2.id
+}
+
 resource "openstack_containerinfra_cluster_v1" "cluster_1" {
   name                = "builder-cluster-${random_string.suffix.result}"
   cluster_template_id = data.openstack_containerinfra_clustertemplate_v1.cluster_template.id
