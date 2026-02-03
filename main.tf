@@ -80,15 +80,16 @@ resource "openstack_containerinfra_cluster_v1" "cluster_1" {
 
 # Todo: create the depends_on based on whats enabled... e.g jenkins should wait for istio if its enabled, but carry on if not.
 
-module "storage-classes" {
-  source      = "git@github.com:blackcatengineering/tf-mod-storage-classes"
-  k8s_cluster = openstack_containerinfra_cluster_v1.cluster_1.name
-  providers = {
-    kubernetes = kubernetes.kubernetes_config
-  }
+# These may not be needed now...
+# module "storage-classes" {
+#   source      = "git@github.com:blackcatengineering/tf-mod-storage-classes"
+#   k8s_cluster = openstack_containerinfra_cluster_v1.cluster_1.name
+#   providers = {
+#     kubernetes = kubernetes.kubernetes_config
+#   }
 
-  depends_on = [openstack_containerinfra_cluster_v1.cluster_1, local_sensitive_file.builder_k8s_config]
-}
+#   depends_on = [openstack_containerinfra_cluster_v1.cluster_1, local_sensitive_file.builder_k8s_config]
+# }
 
 
 module "builder-istio" {
@@ -100,12 +101,12 @@ module "builder-istio" {
     kubernetes = kubernetes.kubernetes_config
   }
 
-  depends_on = [openstack_containerinfra_cluster_v1.cluster_1, local_sensitive_file.builder_k8s_config, module.storage-classes]
+  depends_on = [openstack_containerinfra_cluster_v1.cluster_1, local_sensitive_file.builder_k8s_config]
 }
 
 
 module "builder-jenkins" {
-  count       = (var.enable_istio) ? 1 : 0
+  count       = (var.enable_jenkins) ? 1 : 0
   source      = "git@github.com:blackcatengineering/tf-mod-jenkins"
   k8s_cluster = openstack_containerinfra_cluster_v1.cluster_1.name
   # domain  = "example.com"
@@ -114,7 +115,7 @@ module "builder-jenkins" {
     kubernetes = kubernetes.kubernetes_config
   }
 
-  depends_on = [openstack_containerinfra_cluster_v1.cluster_1, local_sensitive_file.builder_k8s_config, module.storage-classes]
+  depends_on = [openstack_containerinfra_cluster_v1.cluster_1, local_sensitive_file.builder_k8s_config]
 }
 
 
